@@ -1,3 +1,5 @@
 {
-    "/public/dist/app.js": "/public/dist/app.js"
+    "/public/dist/app.js": "/public/dist/app.js",
+    "/vue-styles.css": "/vue-styles.css",
+    "/public/dist/vue-styles.css": "/public/dist/vue-styles.css"
 }
