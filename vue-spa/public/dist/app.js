@@ -14896,7 +14896,8 @@ exports.default = {
         return {
             username: '',
             password: '',
-            isAuthenticated: ''
+            isAuthenticated: '',
+            profile: {}
         };
     },
 
@@ -14925,6 +14926,20 @@ exports.default = {
         var unixTimestamp = new Date().getTime() / 1000;
         if (expiration !== null && parseInt(expiration) - unixTimestamp > 0) {
             this.isAuthenticated = true;
+        }
+    },
+
+    watch: {
+        isAuthenticated: function isAuthenticated(val) {
+            var _this2 = this;
+
+            if (val) {
+                _app2.default.getProfile().then(function (profile) {
+                    _this2.profile = profile;
+                });
+            } else {
+                this.profile = {};
+            }
         }
     }
 }; //
@@ -14993,7 +15008,9 @@ var render = function() {
   return _c("div", { staticClass: "content" }, [
     _vm.isAuthenticated
       ? _c("div", [
-          _vm._v("\n        Hello authenticated user\n        "),
+          _vm._v(
+            "\n        Hello " + _vm._s(_vm.profile.firstName) + "\n        "
+          ),
           _c(
             "button",
             {
@@ -15900,10 +15917,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _axios2.default.defaults.baseURL = 'https://api.fullstackweekly.com';
 
+_axios2.default.interceptors.request.use(function (config) {
+    // Important! when the code is run on the server, the window object doesn't exist and we don't render any user specific information
+    if (typeof window === 'undefined') {
+        return config;
+    }
+
+    var token = window.localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = 'Bearer ' + token;
+    }
+    return config;
+});
+
 var appService = {
     getPosts: function getPosts(categoryId) {
         return new Promise(function (resolve) {
             _axios2.default.get('/wp-json/wp/v2/posts?categories=' + categoryId + '&per_page=6').then(function (response) {
+                resolve(response.data);
+            });
+        });
+    },
+    getProfile: function getProfile() {
+        return new Promise(function (resolve) {
+            _axios2.default.get('/services/profile.php').then(function (response) {
                 resolve(response.data);
             });
         });
