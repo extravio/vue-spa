@@ -11676,7 +11676,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("nav", { staticClass: "nav has-shadow" }, [
+  return _c("nav", { staticClass: "navbar has-shadow" }, [
     _c(
       "div",
       { staticClass: "container" },
@@ -11688,24 +11688,24 @@ var render = function() {
         _c(
           "router-link",
           {
-            staticClass: "nav-item is-tab",
-            attrs: { to: "/category/front-end", exact: "" }
+            staticClass: "navbar-item is-tab",
+            attrs: { to: { name: "category", params: { id: "front-end" } } }
           },
-          [_vm._v("Home")]
+          [_vm._v("Front-end")]
         ),
         _vm._v(" "),
         _c(
           "router-link",
           {
-            staticClass: "nav-item is-tab",
-            attrs: { to: "/category/mobile", exact: "" }
+            staticClass: "navbar-item is-tab",
+            attrs: { to: { name: "category", params: { id: "mobile" } } }
           },
           [_vm._v("Mobile")]
         ),
         _vm._v(" "),
         _c(
           "router-link",
-          { staticClass: "nav-item is-tab", attrs: { to: "/login" } },
+          { staticClass: "navbar-item is-tab", attrs: { to: "/login" } },
           [_vm._v("Login")]
         )
       ],
@@ -11872,7 +11872,17 @@ var _Login = __webpack_require__(26);
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _NotFound = __webpack_require__(34);
+
+var _NotFound2 = _interopRequireDefault(_NotFound);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Lazy loading
+// does not work here as [1,2,3].js are not created in public/dist
+//const Category = () => System.import('../theme/Category.vue');
+//const Login = () => System.import('../theme/Login.vue');
+//const NotFound = () => System.import('../theme/NotFound.vue');
 
 _vue2.default.use(_vueRouter2.default);
 
@@ -11889,10 +11899,14 @@ var router = new _vueRouter2.default({
         component: _Login2.default
     }, {
         path: '/category/:id',
+        name: 'category',
         component: _Category2.default
     }, {
         path: '/',
         redirect: '/category/front-end'
+    }, {
+        path: '*',
+        component: _NotFound2.default
     }]
 });
 
@@ -14975,6 +14989,79 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3416028c", module.exports)
+  }
+}
+
+/***/ }),
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__(36)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src/theme/NotFound.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-dfb088a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-dfb088a4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 35 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_vm._v("Page not found")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-dfb088a4", module.exports)
   }
 }
 
