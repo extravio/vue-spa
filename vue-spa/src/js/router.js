@@ -17,8 +17,12 @@ const router = new VueRouter({
             component: Login
         },
         {
-            path: '/',
+            path: '/category/:id',
             component: Category
+        },
+        {
+            path: '/',
+            redirect: '/category/front-end'
         }
     ]
 });
