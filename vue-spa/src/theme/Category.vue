@@ -29,7 +29,7 @@
         if (this.id === 'mobile') {
             categoryId = 11;
         }  
-        appService.getPosts(categoryId, (data) => { this.posts = data });
+        appService.getPosts(categoryId).then((data) => { this.posts = data });
       }, 
     },
     created () {

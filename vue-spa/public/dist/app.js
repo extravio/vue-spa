@@ -14642,7 +14642,7 @@ exports.default = {
       if (this.id === 'mobile') {
         categoryId = 11;
       }
-      _app2.default.getPosts(categoryId, function (data) {
+      _app2.default.getPosts(categoryId).then(function (data) {
         _this.posts = data;
       });
     }
@@ -14879,53 +14879,108 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _app = __webpack_require__(44);
+
+var _app2 = _interopRequireDefault(_app);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {
+            username: '',
+            password: '',
+            isAuthenticated: ''
+        };
+    },
+
+    methods: {
+        login: function login() {
+            var _this = this;
+
+            _app2.default.login({ username: this.username, password: this.password }).then(function (data) {
+                window.localStorage.setItem('token', data.token);
+                window.localStorage.setItem('tokenExpiration', data.expiration);
+                _this.isAuthenticated = true;
+                _this.username = '';
+                _this.password = '';
+            }).catch(function (status) {
+                window.alert('Could not login!');
+            });
+        },
+        logout: function logout() {
+            this.isAuthenticated = false;
+            window.localStorage.setItem('token', null);
+            window.localStorage.setItem('tokenExpiration', null);
+        }
+    },
+    created: function created() {
+        var expiration = window.localStorage.getItem('tokenExpiration');
+        var unixTimestamp = new Date().getTime() / 1000;
+        if (expiration !== null && parseInt(expiration) - unixTimestamp > 0) {
+            this.isAuthenticated = true;
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 /* 28 */
@@ -14935,63 +14990,130 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "content" }, [
+    _vm.isAuthenticated
+      ? _c("div", [
+          _vm._v("\n        Hello authenticated user\n        "),
+          _c(
+            "button",
+            {
+              staticClass: "button is-primary",
+              on: {
+                click: function($event) {
+                  _vm.logout()
+                }
+              }
+            },
+            [_vm._v("\n\t\t\t\tLog out\n        ")]
+          )
+        ])
+      : _c("div", [
+          _c("h2", [_vm._v("Login")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-horizontal" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "field-body" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.username,
+                        expression: "username"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text", placeholder: "Your username" },
+                    domProps: { value: _vm.username },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.username = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-horizontal" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "field-body" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password,
+                        expression: "password"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "password", placeholder: "Your password" },
+                    domProps: { value: _vm.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field is-horizontal" }, [
+            _c("div", { staticClass: "field-label" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "field-body" }, [
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-primary",
+                      on: {
+                        click: function($event) {
+                          _vm.login()
+                        }
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\tLogin\n\t\t\t  ")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content" }, [
-      _c("h2", [_vm._v("Login")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _c("div", { staticClass: "field-label is-normal" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("Username")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("input", {
-                staticClass: "input",
-                attrs: { type: "text", placeholder: "Your username" }
-              })
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _c("div", { staticClass: "field-label is-normal" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("Password")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("input", {
-                staticClass: "input",
-                attrs: { type: "password", placeholder: "Your password" }
-              })
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _c("div", { staticClass: "field-label" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("button", { staticClass: "button is-primary" }, [
-                _vm._v("\n\t\t\t\tLogin\n\t\t\t  ")
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Username")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Password")])
     ])
   }
 ]
@@ -15779,9 +15901,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _axios2.default.defaults.baseURL = 'https://api.fullstackweekly.com';
 
 var appService = {
-    getPosts: function getPosts(categoryId, success) {
-        _axios2.default.get('/wp-json/wp/v2/posts?categories=' + categoryId + '&per_page=6').then(function (response) {
-            success(response.data);
+    getPosts: function getPosts(categoryId) {
+        return new Promise(function (resolve) {
+            _axios2.default.get('/wp-json/wp/v2/posts?categories=' + categoryId + '&per_page=6').then(function (response) {
+                resolve(response.data);
+            });
+        });
+    },
+    login: function login(credentials) {
+        return new Promise(function (resolve, reject) {
+            _axios2.default.post('/services/auth.php', credentials).then(function (response) {
+                resolve(response.data);
+            }).catch(function (response) {
+                reject(response.status);
+            });
         });
     }
 };
