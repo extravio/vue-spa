@@ -1,17 +1,16 @@
 import Vue from 'vue';
 import AppLayout from '../theme/Layout.vue';
 import router from './router';
-
-// Vue.component('app', {
-//   template:
-// })
+import store from '../vuex/index';
 
 const app = new Vue({
     router,
-    ...AppLayout
+    ...AppLayout,
+    store
 });
 
 export {
     app,
-    router
+    router,
+    store
 }
