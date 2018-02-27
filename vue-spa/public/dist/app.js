@@ -14608,50 +14608,38 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 var _Post = __webpack_require__(21);
 
 var _Post2 = _interopRequireDefault(_Post);
 
-var _app = __webpack_require__(44);
-
-var _app2 = _interopRequireDefault(_app);
+var _vuex = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
   components: {
     'app-post': _Post2.default
   },
-  data: function data() {
-    return {
-      id: this.$route.params.id,
-      posts: []
-    };
-  },
-
+  computed: _extends({}, (0, _vuex.mapGetters)('postsModule', ['posts'])),
   methods: {
     loadPosts: function loadPosts() {
-      var _this = this;
-
       var categoryId = 2;
-      if (this.id === 'mobile') {
+      if (this.$route.params.id === 'mobile') {
         categoryId = 11;
       }
-      _app2.default.getPosts(categoryId).then(function (data) {
-        _this.posts = data;
-      });
+      this.$store.dispatch('postsModule/updateCategory', categoryId);
     }
   },
   created: function created() {
@@ -14661,7 +14649,6 @@ exports.default = {
   watch: {
     // reload the posts when the route has changed
     '$route': function $route(to, from) {
-      this.id = to.params.id;
       this.loadPosts();
     }
   }
@@ -16875,6 +16862,10 @@ var _app = __webpack_require__(44);
 
 var _app2 = _interopRequireDefault(_app);
 
+var _posts = __webpack_require__(68);
+
+var _posts2 = _interopRequireDefault(_posts);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vuex2.default);
@@ -16884,6 +16875,9 @@ var state = {
 };
 
 var store = new _vuex2.default.Store({
+    modules: {
+        postsModule: _posts2.default
+    },
     state: state,
     getters: {
         isAuthenticated: function isAuthenticated(state) {
@@ -17880,6 +17874,59 @@ var index_esm = {
 
 /* harmony default export */ __webpack_exports__["default"] = (index_esm);
 
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _app = __webpack_require__(44);
+
+var _app2 = _interopRequireDefault(_app);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var state = {
+    posts: [],
+    categoryId: 0
+};
+
+var getters = {
+    posts: function posts(state) {
+        return state.posts;
+    }
+};
+
+var actions = {
+    updateCategory: function updateCategory(context, categoryId) {
+        _app2.default.getPosts(categoryId).then(function (data) {
+            context.commit('updateCategory', {
+                categoryId: categoryId, posts: data
+            });
+        });
+    }
+};
+
+var mutations = {
+    updateCategory: function updateCategory(state, category) {
+        state.posts = category.posts;
+        state.categoryId = category.categoryId;
+    }
+};
+
+exports.default = {
+    namespaced: true,
+    state: state,
+    getters: getters,
+    actions: actions,
+    mutations: mutations
+};
 
 /***/ })
 /******/ ]);
