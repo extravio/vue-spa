@@ -54,13 +54,14 @@
 
 <script>
   import appService from '../js/app.service'
+  import eventBus from '../js/event-bus'
 
   export default {
     data() {
       return {
         username: '', 
         password: '',
-        isAuthenticated: '',
+        isAuthenticated: false,
         profile: {},
       }
     },
@@ -101,6 +102,7 @@
             } else {
                 this.profile = {};
             }
+            eventBus.$emit('authStatusUpdate', val)
         }
     }
   }

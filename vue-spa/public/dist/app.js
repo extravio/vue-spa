@@ -11628,7 +11628,7 @@ exports.default = {
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(65)
 /* template */
 var __vue_template__ = __webpack_require__(13)
 /* template functional */
@@ -11706,7 +11706,11 @@ var render = function() {
         _c(
           "router-link",
           { staticClass: "navbar-item is-tab", attrs: { to: "/login" } },
-          [_vm._v("Login")]
+          [
+            _vm.isAuthenticated
+              ? _c("span", [_vm._v("Log out")])
+              : _c("span", [_vm._v("Login")])
+          ]
         )
       ],
       1
@@ -14889,14 +14893,73 @@ var _app = __webpack_require__(44);
 
 var _app2 = _interopRequireDefault(_app);
 
+var _eventBus = __webpack_require__(64);
+
+var _eventBus2 = _interopRequireDefault(_eventBus);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
         return {
             username: '',
             password: '',
-            isAuthenticated: '',
+            isAuthenticated: false,
             profile: {}
         };
     },
@@ -14940,62 +15003,10 @@ exports.default = {
             } else {
                 this.profile = {};
             }
+            _eventBus2.default.$emit('authStatusUpdate', val);
         }
     }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 28 */
@@ -16845,6 +16856,72 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _vue = __webpack_require__(2);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var eventBus = new _vue2.default();
+
+exports.default = eventBus;
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _eventBus = __webpack_require__(64);
+
+var _eventBus2 = _interopRequireDefault(_eventBus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    return {
+      isAuthenticated: false
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    _eventBus2.default.$on('authStatusUpdate', function (isAuthenticated) {
+      _this.isAuthenticated = isAuthenticated;
+    });
+  }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ })
 /******/ ]);
